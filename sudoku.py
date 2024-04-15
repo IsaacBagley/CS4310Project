@@ -1,9 +1,9 @@
 from random import sample, choice
-import PySimpleGUI as sg
+import time
 
 
-def generate_random_board():
-    # Function to illustrate the program's viability with any given Sudoku puzzle
+def generate_random_board(blank_squares):
+    # Function to generate a random Sudoku board
     base = 3
     side = base * base
 
@@ -16,10 +16,25 @@ def generate_random_board():
     board = [[nums[generate_pattern(base, side, r, c)] for c in cols] for r in rows]
 
     # Create an incomplete Sudoku board by removing some cells
-    for _ in range(side * side // 2):
+    blanks_generated = 0
+    while blanks_generated < blank_squares:
         row, col = choice(range(side)), choice(range(side))
-        board[row][col] = 0
+        if board[row][col] != 0:
+            board[row][col] = 0
+            blanks_generated += 1
 
+    return board
+
+
+def input_board():
+    print("Enter the initial Sudoku board:")
+    board = []
+    for i in range(9):
+        row = input(f"Enter row {i + 1} (9 numbers separated by spaces, use '0' for empty cells): ").strip().split()
+        if len(row) != 9 or not all(cell.isdigit() and 0 <= int(cell) <= 9 for cell in row):
+            print("Invalid input. Please enter 9 numbers separated by spaces.")
+            return None
+        board.append([int(cell) for cell in row])
     return board
 
 
@@ -84,7 +99,7 @@ def undo_forward_checking(board, saved_values):
         board[i][j] = value
 
 
-def solve_sudoku(board, window):
+def solve_sudoku(board):
     # Find the first (next) empty cell
     empty_row, empty_col = find_empty_location(board)
 
@@ -92,107 +107,66 @@ def solve_sudoku(board, window):
         # No empty cell, puzzle is solved
         return True
 
+    # Try numbers from 1 to 9
     for num in range(1, 10):
         if is_valid(board, empty_row, empty_col, num):
-            # Try placing the number in the empty cell
-            board[empty_row][empty_col] = num
+            # Check if the current cell is empty in the original puzzle
+            if board[empty_row][empty_col] == 0:
+                # Try placing the number in the empty cell
+                board[empty_row][empty_col] = num
 
-            # Apply forward checking
-            saved_values = forward_checking(board, empty_row, empty_col, num)
+                # Apply forward checking
+                saved_values = forward_checking(board, empty_row, empty_col, num)
 
-            # Update GUI
-            window[empty_row, empty_col].update(num)
+                # Recursively solve the rest of the puzzle
+                if solve_sudoku(board):
+                    return True
 
-            # Recursively solve the rest of the puzzle
-            if solve_sudoku(board, window):
-                return True
+                # If the current placement produces an invalid solution, backtrack
+                board[empty_row][empty_col] = 0
 
-            # If the current placement produces an invalid solution, backtrack
-            board[empty_row][empty_col] = 0
-
-            # Undo forward checking
-            undo_forward_checking(board, saved_values)
-            window[empty_row, empty_col].update("")
+                # Undo forward checking
+                undo_forward_checking(board, saved_values)
+            else:
+                # If the current cell is not empty in the original puzzle, skip it
+                if solve_sudoku(board):
+                    return True
 
     # No valid number found for this cell; backtrack
     return False
 
 
-def sudoku_solver_gui(board):
-    # Define the layout for the Sudoku board
-    sg.theme("Default1")
-
-    # Create 9x9 grid
-    layout = []
-
-    # Create rows and layouts for the 3x3 sub-grids
-    for i in range(3):
-        row = []
-        for j in range(3):
-            subgrid_layout = []
-            # Define the layout for each cell within the sub-grid as a single text element
-            for m in range(3):
-                cell_row = []
-                for n in range(3):
-                    cell_layout = [
-                        [sg.Text("", size=(1, 1), pad=(0, 0), justification="center", key=(3 * i + m, 3 * j + n))],
-                    ]
-                    # Create a border around each cell
-                    cell_row.append(sg.Frame("", cell_layout, relief="ridge"))
-                # Add the row of cells to the sub-grid layout
-                subgrid_layout.append(cell_row)
-            # Add the sub-grid layout to the row
-            row.append(sg.Frame("", subgrid_layout, relief="ridge"))
-        # Add the row of sub-grids to the overall layout
-        layout.append(row)
-
-    # Add "Solve" and "Quit" buttons
-    layout.append([sg.Button("Solve"), sg.Button("Quit")])
-
-    # Create the GUI window
-    window = sg.Window("Sudoku Solver", layout, finalize=True)
-
-    # Initialize the given board
-    for i in range(9):
-        for j in range(9):
-            if board[i][j] != 0:
-                window[(i, j)].update(board[i][j], text_color="blue")
-
-    # Event loop
-    while True:
-        event, values = window.read()
-
-        # Handle window close or "Quit" button click
-        if event == sg.WINDOW_CLOSED or event == "Quit":
-            break
-
-        # Handle "Solve" button click
-        if event == "Solve":
-            if solve_sudoku(board, window):
-                # Update input fields with solved Sudoku values
-                for i in range(9):
-                    for j in range(9):
-                        window[i, j].update(board[i][j], text_color="blue")
-            else:
-                sg.popup("No solution found.")
-
-    window.close()
+def print_board(board):
+    for i, row in enumerate(board):
+        if i % 3 == 0 and i != 0:
+            print("-" * 21)
+        for j, num in enumerate(row):
+            if j % 3 == 0 and j != 0:
+                print("|", end=" ")
+            print(num, end=" ")
+        print()
 
 
 if __name__ == "__main__":
-    # # Generate a random Sudoku board
-    # board = generate_random_board()
-
-    # If this voodoo frightens you, use the given example board instead
-    board = [
-        [0, 0, 0, 2, 6, 0, 7, 0, 1],
-        [6, 8, 0, 0, 7, 0, 0, 9, 0],
-        [1, 9, 0, 0, 0, 4, 5, 0, 0],
-        [8, 2, 0, 1, 0, 0, 0, 4, 0],
-        [0, 0, 4, 6, 0, 2, 9, 0, 0],
-        [0, 5, 0, 0, 0, 3, 0, 2, 8],
-        [0, 0, 9, 3, 0, 0, 0, 7, 4],
-        [0, 4, 0, 0, 5, 0, 0, 3, 6],
-        [7, 0, 3, 0, 1, 8, 0, 0, 0],
-    ]
-    sudoku_solver_gui(board)
+    answer = input("Would you like to input your own board? (yes/no): ")
+    if answer.lower() == "no":
+        clues = int(input("How many clues are used? "))
+        blanks = 81 - clues
+        board = generate_random_board(blanks)
+        print("Initial Board:")
+        print_board(board)
+    else:
+        board = input_board()
+        if board is None:
+            exit()  # Exit if the input is invalid
+    start = time.process_time_ns()
+    print("\nSolving...\n")
+    if solve_sudoku(board):
+        print("Solved Board:")
+        print_board(board)
+        end = time.process_time_ns() - start
+        print("Time to solve =", end/1000, "us")
+    else:
+        print("No solution found.")
+        end = time.process_time_ns() - start
+        print("Time to not find solution =", end/1000, "us")
