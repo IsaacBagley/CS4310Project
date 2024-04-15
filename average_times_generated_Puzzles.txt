@@ -1,0 +1,140 @@
+AutoGen execution times:
+
+17: 65509375.0 us
+18: 296875.0 us
+19: 139062.5 us
+20: 128125.0 us
+21: 120312.5 us
+22: 1776562.5 us
+25: 46875.0 us, 15625.0 us, 15625.0 us, 234375.0 us, 31250.0 us
+avg = 66930.0 us
+30: 15625.0 us, 15625.0 us, 203125.0 us, 140625.0 us, 140625.0 us
+avg = 103125.0 us
+35: 15625.0 us, 15625.0 us, 15625.0 us, 15625.0 us, 15625.0 us
+avg = 15625.0 us
+40: 15625.0 us, 15625.0 us, 15625.0 us, 15625.0 us, 15625.0 us
+avg = 15625.0
+brokedown past this point...
+
+
+average time = 0.0 us for 81 clues
+
+average time = 0.0 us for 80 clues
+
+average time = 0.0 us for 79 clues
+
+average time = 0.0 us for 78 clues
+
+average time = 0.0 us for 77 clues
+
+average time = 0.0 us for 76 clues
+
+average time = 0.0 us for 75 clues
+
+average time = 0.0 us for 74 clues
+
+average time = 0.0 us for 73 clues
+
+average time = 0.0 us for 72 clues
+
+average time = 1562.5 us for 71 clues
+
+average time = 0.0 us for 70 clues
+
+average time = 0.0 us for 69 clues
+
+average time = 0.0 us for 68 clues
+
+average time = 0.0 us for 67 clues
+
+average time = 0.0 us for 66 clues
+
+average time = 0.0 us for 65 clues
+
+average time = 1562.5 us for 64 clues
+
+average time = 0.0 us for 63 clues
+
+average time = 0.0 us for 62 clues
+
+average time = 0.0 us for 61 clues
+
+average time = 0.0 us for 60 clues
+
+average time = 0.0 us for 59 clues
+
+average time = 1562.5 us for 58 clues
+
+average time = 0.0 us for 57 clues
+
+average time = 0.0 us for 56 clues
+
+average time = 1562.5 us for 55 clues
+
+average time = 0.0 us for 54 clues
+
+average time = 0.0 us for 53 clues
+
+average time = 0.0 us for 52 clues
+
+average time = 1562.5 us for 51 clues
+
+average time = 0.0 us for 50 clues
+
+average time = 1562.5 us for 49 clues
+
+average time = 0.0 us for 48 clues
+
+average time = 1562.5 us for 47 clues
+
+average time = 0.0 us for 46 clues
+
+average time = 1562.5 us for 45 clues
+
+average time = 1562.5 us for 44 clues
+
+average time = 1562.5 us for 43 clues
+
+average time = 1562.5 us for 42 clues
+
+average time = 1562.5 us for 41 clues
+
+average time = 4687.5 us for 40 clues
+
+average time = 3125.0 us for 39 clues
+
+average time = 4687.5 us for 38 clues
+
+average time = 3125.0 us for 37 clues
+
+average time = 3125.0 us for 36 clues
+
+average time = 4687.5 us for 35 clues
+
+average time = 9375.0 us for 34 clues
+
+average time = 12500.0 us for 33 clues
+
+average time = 21875.0 us for 32 clues
+
+average time = 12500.0 us for 31 clues
+
+average time = 28125.0 us for 30 clues
+
+average time = 190625.0 us for 29 clues
+
+average time = 62500.0 us for 28 clues
+
+average time = 195312.5 us for 27 clues
+
+average time = 118750.0 us for 26 clues
+
+average time = 110937.5 us for 25 clues
+
+average time = 1128125.0 us for 24 clues
+
+average time = 6354687.5 us for 23 clues
+
+average time = 1029687.5 us for 22 clues
+
+average time = 28125.0 us for 21 clues
